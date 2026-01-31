@@ -2,23 +2,22 @@ using Application.CQRS;
 using Application.Devices.DTOs;
 using Domain.Common;
 using Domain.Contracts;
-using Domain.Enums;
 
-namespace Application.Devices.Queries.GetDevicesByState;
+namespace Application.Devices.Queries.GetDevicesByFilter;
 
-public class GetDevicesByStateQueryHandler : IQueryHandler<GetDevicesByStateQuery, IEnumerable<DeviceDto>>
+public class GetDevicesByFilterQueryHandler: IQueryHandler<GetDevicesByFilterQuery, IEnumerable<DeviceDto>>
 {
     private readonly IDeviceEntityRepository _repository;
 
-    public GetDevicesByStateQueryHandler(IDeviceEntityRepository repository)
+    public GetDevicesByFilterQueryHandler(IDeviceEntityRepository repository)
     {
         _repository = repository;
     }
 
-    public async Task<IEnumerable<DeviceDto>> HandleAsync(GetDevicesByStateQuery query, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<DeviceDto>> HandleAsync(GetDevicesByFilterQuery query, CancellationToken cancellationToken = default)
     {
         var pagedResult = await _repository.GetDevicesPagedAsync(
-            predicate: d => d.State == query.State,
+            predicate: query.Predicate,
             pagination: new PaginationParameters(PageNumber: 1, PageSize: int.MaxValue),
             cancellationToken: cancellationToken);
 
