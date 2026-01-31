@@ -35,4 +35,11 @@ RUN dotnet publish "./API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:Use
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# Bind port 5000
+ENV ASPNETCORE_URLS=http://+:5000
+
+# Expose port
+EXPOSE 5000
+
 ENTRYPOINT ["dotnet", "API.dll"]
