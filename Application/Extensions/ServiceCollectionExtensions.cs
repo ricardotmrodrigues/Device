@@ -1,4 +1,3 @@
-using Application.Behaviors;
 using Application.CQRS;
 using FluentValidation;
 using Infrastructure.Extensions;
@@ -38,9 +37,6 @@ public static class ServiceCollectionExtensions
             .AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)))
             .AsImplementedInterfaces()
             .WithScopedLifetime());
-
-        services.Decorate(typeof(ICommandHandler<>), typeof(ValidationCommandHandler<>));
-        services.Decorate(typeof(ICommandHandler<,>), typeof(ValidationCommandHandler<,>));
 
         services.AddScoped<IDispatcher, Dispatcher>();
 

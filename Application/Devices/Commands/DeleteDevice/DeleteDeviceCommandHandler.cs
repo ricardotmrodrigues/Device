@@ -1,5 +1,4 @@
 using Application.CQRS;
-using Application.Exceptions;
 using Domain.Contracts;
 using Domain.Enums;
 
@@ -17,11 +16,11 @@ public class DeleteDeviceCommandHandler : ICommandHandler<DeleteDeviceCommand>
     public async Task HandleAsync(DeleteDeviceCommand command, CancellationToken cancellationToken = default)
     {
         var device = await _repository.GetDeviceByIdAsync(command.Id, cancellationToken)
-            ?? throw new NotFoundException("Device", command.Id);
+            ?? throw new Exception($"Device with id '{command.Id}' was not found.");
 
         if (device.State == DeviceStatus.InUse)
         {
-            throw new BusinessRuleException("Cannot delete a device that is in use.");
+            throw new Exception("Cannot delete a device that is in use.");
         }
 
         await _repository.DeleteDeviceAsync(command.Id, cancellationToken);
