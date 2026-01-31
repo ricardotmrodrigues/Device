@@ -1,5 +1,6 @@
 using Application.CQRS;
 using Application.Devices.DTOs;
+using Domain.Common;
 using Domain.Contracts;
 using Domain.Enums;
 
@@ -16,10 +17,11 @@ public class GetDevicesByStateQueryHandler : IQueryHandler<GetDevicesByStateQuer
 
     public async Task<IEnumerable<DeviceDto>> HandleAsync(GetDevicesByStateQuery query, CancellationToken cancellationToken = default)
     {
-        var devices = await _repository.GetAllDevicesAsync(
-            d => d.State == query.State,
-            cancellationToken);
+        var pagedResult = await _repository.GetDevicesPagedAsync(
+            predicate: d => d.State == query.State,
+            pagination: new PaginationParameters(PageNumber: 1, PageSize: int.MaxValue),
+            cancellationToken: cancellationToken);
 
-        return devices.Select(d => new DeviceDto(d.Id, d.Name, d.Brand, d.State, d.CreationTime));
+        return pagedResult.Items.Select(d => new DeviceDto(d.Id, d.Name, d.Brand, d.State, d.CreationTime));
     }
 }

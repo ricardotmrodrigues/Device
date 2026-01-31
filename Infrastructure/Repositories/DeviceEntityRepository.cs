@@ -30,17 +30,6 @@ public class DeviceEntityRepository : IDeviceEntityRepository
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<DeviceEntity>> GetAllDevicesAsync(Expression<Func<DeviceEntity, bool>>? predicate = null, CancellationToken cancellationToken = default)
-    {
-        IQueryable<DeviceEntity> query = _context.Devices;
-
-        if (predicate is not null)
-        {
-            query = query.Where(predicate);
-        }
-
-        return await query.ToListAsync(cancellationToken);
-    }
 
     public async Task<DeviceEntity?> GetDeviceByIdAsync(int deviceId, CancellationToken cancellationToken)
     {

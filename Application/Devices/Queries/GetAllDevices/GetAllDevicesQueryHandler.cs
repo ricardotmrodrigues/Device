@@ -1,5 +1,6 @@
 using Application.CQRS;
 using Application.Devices.DTOs;
+using Domain.Common;
 using Domain.Contracts;
 
 namespace Application.Devices.Queries.GetAllDevices;
@@ -15,8 +16,12 @@ public class GetAllDevicesQueryHandler : IQueryHandler<GetAllDevicesQuery, IEnum
 
     public async Task<IEnumerable<DeviceDto>> HandleAsync(GetAllDevicesQuery query, CancellationToken cancellationToken = default)
     {
-        var devices = await _repository.GetAllDevicesAsync(cancellationToken: cancellationToken);
+        // Use paginated method with large page size to get all devices (for backward compatibility)
+        var pagedResult = await _repository.GetDevicesPagedAsync(
+            predicate: null,
+            pagination: new PaginationParameters(PageNumber: 1, PageSize: int.MaxValue),
+            cancellationToken: cancellationToken);
 
-        return devices.Select(d => new DeviceDto(d.Id, d.Name, d.Brand, d.State, d.CreationTime));
+        return pagedResult.Items.Select(d => new DeviceDto(d.Id, d.Name, d.Brand, d.State, d.CreationTime));
     }
 }
