@@ -1,4 +1,5 @@
 using API.DTOs.Requests;
+using API.DTOs.Responses;
 using Application.CQRS;
 using Application.Devices.Commands.CreateDevice;
 using Application.Devices.Commands.DeleteDevice;
@@ -18,7 +19,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<DeviceDto>> GetDevice(int id, CancellationToken ct = default)
+        public async Task<ActionResult<DeviceResponse>> GetDevice(int id, CancellationToken ct = default)
         {
             var query = new GetDeviceByIdQuery(id);
             var result = await _dispatcher.QueryAsync<DeviceDto?>(query, ct);
@@ -26,31 +27,31 @@ namespace API.Controllers
             if (result == null)
                 return NotFound();
 
-            return Ok(result);
+            return Ok(DeviceResponse.FromDeviceDto(result));
         }
 
         [HttpPost]
-        public async Task<ActionResult<DeviceDto>> CreateDevice([FromBody] CreateDeviceRequest request, CancellationToken ct = default)
+        public async Task<ActionResult<DeviceResponse>> CreateDevice([FromBody] CreateDeviceRequest request, CancellationToken ct = default)
         {
             var command = new CreateDeviceCommand(request.Name, request.Brand, request.State);
             var result = await _dispatcher.SendAsync<CreateDeviceCommand, DeviceDto>(command, ct);
-            return Ok(result);
+            return Ok(DeviceResponse.FromDeviceDto(result));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<DeviceDto>> UpdateDevice(int id, [FromBody] UpdateDeviceRequest request, CancellationToken ct = default)
+        public async Task<ActionResult<DeviceResponse>> UpdateDevice(int id, [FromBody] UpdateDeviceRequest request, CancellationToken ct = default)
         {
             var command = new UpdateDeviceCommand(id, request.Name, request.Brand, request.State);
             var result = await _dispatcher.SendAsync<UpdateDeviceCommand, DeviceDto>(command, ct);
-            return Ok(result);
+            return Ok(DeviceResponse.FromDeviceDto(result));
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult<DeviceDto>> PartialUpdateDevice(int id, [FromBody] PartialUpdateDeviceRequest request, CancellationToken ct = default)
+        public async Task<ActionResult<DeviceResponse>> PartialUpdateDevice(int id, [FromBody] PartialUpdateDeviceRequest request, CancellationToken ct = default)
         {
             var command = new UpdateDeviceCommand(id, request.Name, request.Brand, request.State);
             var result = await _dispatcher.SendAsync<UpdateDeviceCommand, DeviceDto>(command, ct);
-            return Ok(result);
+            return Ok(DeviceResponse.FromDeviceDto(result));
         }
 
         [HttpDelete("{id}")]

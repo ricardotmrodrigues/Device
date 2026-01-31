@@ -6,9 +6,9 @@ namespace Application.Devices.Queries.GetDevicesByBrand;
 
 public class GetDevicesByBrandQueryHandler : IQueryHandler<GetDevicesByBrandQuery, IEnumerable<DeviceDto>>
 {
-    private readonly IDeviceRepository _repository;
+    private readonly IDeviceEntityRepository _repository;
 
-    public GetDevicesByBrandQueryHandler(IDeviceRepository repository)
+    public GetDevicesByBrandQueryHandler(IDeviceEntityRepository repository)
     {
         _repository = repository;
     }

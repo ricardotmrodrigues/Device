@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
         services.AddDbContext<DeviceDBContext>(options =>
             options.UseNpgsql(connectionString));
 
-        services.AddScoped<IDeviceRepository, DeviceEntityRepository>();
+        services.AddScoped<IDeviceEntityRepository, DeviceEntityRepository>();
 
         return services;
     }

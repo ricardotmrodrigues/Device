@@ -6,9 +6,9 @@ namespace Application.Devices.Queries.GetDeviceById;
 
 public class GetDeviceByIdQueryHandler : IQueryHandler<GetDeviceByIdQuery, DeviceDto?>
 {
-    private readonly IDeviceRepository _repository;
+    private readonly IDeviceEntityRepository _repository;
 
-    public GetDeviceByIdQueryHandler(IDeviceRepository repository)
+    public GetDeviceByIdQueryHandler(IDeviceEntityRepository repository)
     {
         _repository = repository;
     }

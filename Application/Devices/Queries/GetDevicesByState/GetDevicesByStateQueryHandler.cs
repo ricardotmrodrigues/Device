@@ -7,9 +7,9 @@ namespace Application.Devices.Queries.GetDevicesByState;
 
 public class GetDevicesByStateQueryHandler : IQueryHandler<GetDevicesByStateQuery, IEnumerable<DeviceDto>>
 {
-    private readonly IDeviceRepository _repository;
+    private readonly IDeviceEntityRepository _repository;
 
-    public GetDevicesByStateQueryHandler(IDeviceRepository repository)
+    public GetDevicesByStateQueryHandler(IDeviceEntityRepository repository)
     {
         _repository = repository;
     }

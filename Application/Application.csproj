@@ -15,7 +15,6 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Common\" />
-    <Folder Include="Common\Models\" />
+    <Folder Include="Common\DTOs\" />
   </ItemGroup>
 </Project>

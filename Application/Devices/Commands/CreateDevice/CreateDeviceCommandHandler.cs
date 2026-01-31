@@ -7,9 +7,9 @@ namespace Application.Devices.Commands.CreateDevice;
 
 public class CreateDeviceCommandHandler : ICommandHandler<CreateDeviceCommand, DeviceDto>
 {
-    private readonly IDeviceRepository _repository;
+    private readonly IDeviceEntityRepository _repository;
 
-    public CreateDeviceCommandHandler(IDeviceRepository repository)
+    public CreateDeviceCommandHandler(IDeviceEntityRepository repository)
     {
         _repository = repository;
     }

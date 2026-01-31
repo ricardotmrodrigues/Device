@@ -6,9 +6,9 @@ namespace Application.Devices.Queries.GetAllDevices;
 
 public class GetAllDevicesQueryHandler : IQueryHandler<GetAllDevicesQuery, IEnumerable<DeviceDto>>
 {
-    private readonly IDeviceRepository _repository;
+    private readonly IDeviceEntityRepository _repository;
 
-    public GetAllDevicesQueryHandler(IDeviceRepository repository)
+    public GetAllDevicesQueryHandler(IDeviceEntityRepository repository)
     {
         _repository = repository;
     }

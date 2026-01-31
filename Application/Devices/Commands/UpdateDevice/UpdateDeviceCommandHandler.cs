@@ -7,9 +7,9 @@ namespace Application.Devices.Commands.UpdateDevice;
 
 public class UpdateDeviceCommandHandler : ICommandHandler<UpdateDeviceCommand, DeviceDto>
 {
-    private readonly IDeviceRepository _repository;
+    private readonly IDeviceEntityRepository _repository;
 
-    public UpdateDeviceCommandHandler(IDeviceRepository repository)
+    public UpdateDeviceCommandHandler(IDeviceEntityRepository repository)
     {
         _repository = repository;
     }

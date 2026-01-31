@@ -6,9 +6,9 @@ namespace Application.Devices.Commands.DeleteDevice;
 
 public class DeleteDeviceCommandHandler : ICommandHandler<DeleteDeviceCommand>
 {
-    private readonly IDeviceRepository _repository;
+    private readonly IDeviceEntityRepository _repository;
 
-    public DeleteDeviceCommandHandler(IDeviceRepository repository)
+    public DeleteDeviceCommandHandler(IDeviceEntityRepository repository)
     {
         _repository = repository;
     }
