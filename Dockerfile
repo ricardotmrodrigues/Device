@@ -5,14 +5,24 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+
+# Copy all project files for proper dependency resolution
+COPY ["Domain/Domain.csproj", "Domain/"]
+COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+COPY ["Application/Application.csproj", "Application/"]
 COPY ["API/API.csproj", "API/"]
+
+# Restore dependencies for the API project (which will restore all referenced projects)
 RUN dotnet restore "./API/API.csproj"
+
+# Copy all source code
 COPY . .
+
+# Build the API project (which will build all dependencies in correct order)
 WORKDIR "/src/API"
 RUN dotnet build "./API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
