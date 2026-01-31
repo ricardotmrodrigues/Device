@@ -1,25 +1,27 @@
-using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Database;
 
-public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
+public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DeviceDBContext>
 {
-    public AppDbContext CreateDbContext(string[] args)
+    public DeviceDBContext CreateDbContext(string[] args)
     {
         var configuration = new ConfigurationBuilder()
-            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../DDAPI.API"))
+            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../API"))
             .AddJsonFile("appsettings.json", optional: false)
             .AddJsonFile("appsettings.Development.json", optional: true)
             .Build();
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+        var optionsBuilder = new DbContextOptionsBuilder<DeviceDBContext>();
         optionsBuilder.UseNpgsql(connectionString, npgsqlOptions =>
         {
-            npgsqlOptions.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
+            npgsqlOptions.MigrationsAssembly(typeof(DeviceDBContext).Assembly.FullName);
         });
 
-        return new AppDbContext(optionsBuilder.Options);
+        return new DeviceDBContext(optionsBuilder.Options);
     }
 }

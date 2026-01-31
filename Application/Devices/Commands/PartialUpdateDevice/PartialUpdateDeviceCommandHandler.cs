@@ -1,0 +1,40 @@
+using Application.CQRS;
+using Application.Devices.DTOs;
+using Application.Exceptions;
+using Domain.Contracts;
+using Domain.Enums;
+
+namespace Application.Devices.Commands.PartialUpdateDevice;
+
+public class PartialUpdateDeviceCommandHandler : ICommandHandler<PartialUpdateDeviceCommand, DeviceDto>
+{
+    private readonly IDeviceRepository _repository;
+
+    public PartialUpdateDeviceCommandHandler(IDeviceRepository repository)
+    {
+        _repository = repository;
+    }
+
+    public async Task<DeviceDto> HandleAsync(PartialUpdateDeviceCommand command, CancellationToken cancellationToken = default)
+    {
+        var device = await _repository.GetDeviceByIdAsync(command.Id, cancellationToken)
+            ?? throw new NotFoundException("Device", command.Id);
+
+        if (device.State == DeviceStatus.InUse)
+        {
+            if ((command.Name is not null && device.Name != command.Name) ||
+                (command.Brand is not null && device.Brand != command.Brand))
+            {
+                throw new BusinessRuleException("Name and brand cannot be updated when device is in use.");
+            }
+        }
+
+        if (command.Name is not null) device.Name = command.Name;
+        if (command.Brand is not null) device.Brand = command.Brand;
+        if (command.State is not null) device.State = command.State.Value;
+
+        var updated = await _repository.UpdateDeviceAsync(device, cancellationToken);
+
+        return new DeviceDto(updated.Id, updated.Name, updated.Brand, updated.State, updated.CreationTime);
+    }
+}
