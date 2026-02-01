@@ -4,4 +4,8 @@ using Domain.Enums;
 
 namespace Application.Devices.Commands.CreateDevice;
 
-public record CreateDeviceCommand(string Name, string Brand, DeviceStatus State) : ICommand<DeviceDto>;
+public record CreateDeviceCommand(
+    string Name,
+    string Brand,
+    DeviceStatus State = DeviceStatus.Avaliable
+) : ICommand<DeviceDto>;

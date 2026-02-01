@@ -3,6 +3,9 @@ using Infrastructure.Extensions;
 using FluentValidation.AspNetCore;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 namespace API;
 
@@ -17,10 +20,23 @@ public class Program
             ?? throw new InvalidOperationException("CONNECTION_STRING environment variable is not set.");
         builder.Services.AddInfrastructure(connectionString);
         builder.Services.AddApplication();
-        builder.Services.AddControllers();
+        builder.Services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
         builder.Services.AddFluentValidationAutoValidation();
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Device API",
+                Version = "v1",
+                Description = "API for managing devices"
+            });
+            c.UseInlineDefinitionsForEnums();
+        });
 
         var app = builder.Build();
 

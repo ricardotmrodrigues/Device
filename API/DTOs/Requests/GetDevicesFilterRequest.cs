@@ -1,9 +1,10 @@
 using Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.DTOs.Requests;
 
 public record GetDevicesFilterRequest(
-    string? Brand = null,
+    [StringLength(100)] string? Brand = null,
     DeviceStatus? State = null,
-    string? Name = null
+    [StringLength(200)] string? Name = null
 );
