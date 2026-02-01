@@ -47,11 +47,11 @@ public class Program
             context.Database.Migrate();
         }
 
-        if (app.Environment.IsDevelopment())
-        {
+        // if (app.Environment.IsDevelopment())
+        // {
             app.UseSwagger();
             app.UseSwaggerUI();
-        }
+        // }
 
         app.UseHttpsRedirection();
         app.UseAuthorization();
