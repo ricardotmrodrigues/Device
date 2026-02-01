@@ -13,6 +13,7 @@ public class GetDeviceByIdQueryHandler : IQueryHandler<GetDeviceByIdQuery, Devic
         _repository = repository;
     }
 
+    // get device by id query handler
     public async Task<DeviceDto?> HandleAsync(GetDeviceByIdQuery query, CancellationToken cancellationToken = default)
     {
         var device = await _repository.GetDeviceByIdAsync(query.Id, cancellationToken);

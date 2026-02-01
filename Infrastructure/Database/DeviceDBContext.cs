@@ -16,7 +16,7 @@ public class DeviceDBContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // Apply all configurations from the assembly
+        // Apply all configurations from the assembly inside EntitiesConfigurations folder
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(DeviceDBContext).Assembly);
     }
 }

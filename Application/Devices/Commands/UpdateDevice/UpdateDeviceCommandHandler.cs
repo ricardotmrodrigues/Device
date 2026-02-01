@@ -14,23 +14,28 @@ public class UpdateDeviceCommandHandler : ICommandHandler<UpdateDeviceCommand, D
         _repository = repository;
     }
 
+    // update device command handler
     public async Task<DeviceDto> HandleAsync(UpdateDeviceCommand command, CancellationToken cancellationToken = default)
     {
         var device = await _repository.GetDeviceByIdAsync(command.Id, cancellationToken)
             ?? throw new Exception($"Device with id '{command.Id}' was not found.");
 
+        //if device is in use...
         if (device.State == DeviceStatus.InUse)
         {
+            //we cannot update name
             if (command.Name is not null && device.Name != command.Name) 
             {
                 throw new Exception("Name cannot be updated when device is in use.");
             }
+            //we cannot update brand
             if (command.Brand is not null && device.Brand != command.Brand)
             {
                 throw new Exception("Brand cannot be updated when device is in use.");
             }
         }
 
+        //update fields if they are provided
         if (command.Name is not null) device.Name = command.Name;
         if (command.Brand is not null) device.Brand = command.Brand;
         if (command.State is not null) device.State = command.State.Value;

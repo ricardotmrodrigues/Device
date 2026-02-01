@@ -14,6 +14,7 @@ public class GetDevicesByFilterQueryHandler: IQueryHandler<GetDevicesByFilterQue
         _repository = repository;
     }
 
+    // get devices by filter query handler
     public async Task<IEnumerable<DeviceDto>> HandleAsync(GetDevicesByFilterQuery query, CancellationToken cancellationToken = default)
     {
         var pagedResult = await _repository.GetDevicesPagedAsync(

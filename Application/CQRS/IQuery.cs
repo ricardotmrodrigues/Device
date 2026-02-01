@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.CQRS
+namespace Application.CQRS;
+
+// quesry with etrun value value
+public interface IQuery<TResult>
 {
-    public interface IQuery<TResult>
-    {
-    }
 }

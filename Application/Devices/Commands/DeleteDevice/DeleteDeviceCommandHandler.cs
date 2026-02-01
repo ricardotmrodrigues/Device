@@ -13,11 +13,13 @@ public class DeleteDeviceCommandHandler : ICommandHandler<DeleteDeviceCommand>
         _repository = repository;
     }
 
+    // delete device command handler
     public async Task HandleAsync(DeleteDeviceCommand command, CancellationToken cancellationToken = default)
     {
         var device = await _repository.GetDeviceByIdAsync(command.Id, cancellationToken)
             ?? throw new Exception($"Device with id '{command.Id}' was not found.");
 
+        //if device is in use, throw exception
         if (device.State == DeviceStatus.InUse)
         {
             throw new Exception("Cannot delete a device that is in use.");

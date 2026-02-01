@@ -6,6 +6,7 @@ namespace Infrastructure.Database;
 
 public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DeviceDBContext>
 {
+    //used by EF Core tools to create a DbContext instance at design time
     public DeviceDBContext CreateDbContext(string[] args)
     {
         var configuration = new ConfigurationBuilder()

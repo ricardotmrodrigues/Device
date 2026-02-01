@@ -14,6 +14,7 @@ public class CreateDeviceCommandHandler : ICommandHandler<CreateDeviceCommand, D
         _repository = repository;
     }
 
+    // create device command handler
     public async Task<DeviceDto> HandleAsync(CreateDeviceCommand command, CancellationToken cancellationToken = default)
     {
         var device = new DeviceEntity

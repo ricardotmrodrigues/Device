@@ -11,6 +11,7 @@ namespace Application.CQRS
             _serviceProvider = serviceProvider;
         }
 
+        // execute a command wthtout return value
         public async Task SendAsync<TCommand>(TCommand command, CancellationToken cancellationToken = default)
             where TCommand : ICommand
         {
@@ -18,6 +19,7 @@ namespace Application.CQRS
             await handler.HandleAsync(command, cancellationToken);
         }
 
+        // execute a command with return value (TResult)
         public async Task<TResult> SendAsync<TCommand, TResult>(TCommand command, CancellationToken cancellationToken = default)
             where TCommand : ICommand<TResult>
         {
@@ -25,6 +27,7 @@ namespace Application.CQRS
             return await handler.HandleAsync(command, cancellationToken);
         }
 
+        // execute a query with return value (TResult)
         public async Task<TResult> QueryAsync<TResult>(IQuery<TResult> query, CancellationToken cancellationToken = default)
         {
             var queryType = query.GetType();

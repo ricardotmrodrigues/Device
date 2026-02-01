@@ -1,9 +1,11 @@
-﻿namespace Application.CQRS
+﻿namespace Application.CQRS;
+
+//simple command
+public interface ICommand
 {
-    public interface ICommand
-    {
-    }
-    public interface ICommand<TResult> : ICommand
-    {
-    }
+}
+
+//command with return value
+public interface ICommand<TResult> : ICommand
+{
 }
