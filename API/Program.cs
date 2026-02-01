@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
+using System.Reflection;
 
 namespace API;
 
@@ -41,6 +42,11 @@ public class Program
                 Description = "API for managing devices"
             });
             c.UseInlineDefinitionsForEnums();
+            
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+            c.IncludeXmlComments(xmlPath);
         });
 
         var app = builder.Build();

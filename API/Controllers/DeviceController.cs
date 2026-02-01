@@ -99,7 +99,6 @@ namespace API.Controllers
             return Ok(DeviceResponse.FromDeviceDto(result));
         }
 
-
         /// <summary>
         /// Deletes a device
         /// </summary>
