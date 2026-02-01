@@ -21,10 +21,13 @@ public class UpdateDeviceCommandHandler : ICommandHandler<UpdateDeviceCommand, D
 
         if (device.State == DeviceStatus.InUse)
         {
-            if ((command.Name is not null && device.Name != command.Name) ||
-                (command.Brand is not null && device.Brand != command.Brand))
+            if (command.Name is not null && device.Name != command.Name) 
             {
-                throw new Exception("Name and brand cannot be updated when device is in use.");
+                throw new Exception("Name cannot be updated when device is in use.");
+            }
+            if (command.Brand is not null && device.Brand != command.Brand)
+            {
+                throw new Exception("Brand cannot be updated when device is in use.");
             }
         }
 

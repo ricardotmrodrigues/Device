@@ -1,5 +1,6 @@
 using API.DTOs.Requests;
 using API.DTOs.Responses;
+using API.Extensions;
 using Application.CQRS;
 using Application.Devices.Commands.CreateDevice;
 using Application.Devices.Commands.DeleteDevice;
@@ -28,6 +29,16 @@ namespace API.Controllers
                 return NotFound();
 
             return Ok(DeviceResponse.FromDeviceDto(result));
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<DeviceResponse>>> GetDevices([FromQuery] GetDevicesFilterRequest request, CancellationToken ct = default)
+        {
+            var query = request.ToFilterQuery();
+            var result = await _dispatcher.QueryAsync<IEnumerable<DeviceDto>>(query, ct);
+
+            var response = result.Select(DeviceResponse.FromDeviceDto);
+            return Ok(response);
         }
 
         [HttpPost]
