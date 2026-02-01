@@ -84,13 +84,16 @@ namespace API.Controllers
         /// <summary>
         /// Updates a device
         /// </summary>
+        /// <param name="id">Existing device id to update</param>
         /// <param name="request">Device update details</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>The updated device</returns>
         /// <response code="200">Returns the updated device</response>
+        /// <response code="404">If the device was not found</response>
         /// <response code="400">If the request is invalid</response>
         [HttpPatch("{id}")]
         [ProducesResponseType(typeof(DeviceResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(DeviceResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<DeviceResponse>> UpdateDevice(int id, [FromBody] PartialUpdateDeviceRequest request, CancellationToken ct = default)
         {
