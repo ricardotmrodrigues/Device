@@ -1,5 +1,6 @@
 using Application.CQRS;
 using Application.Devices.DTOs;
+using Domain.Common.Exceptions;
 using Domain.Contracts;
 using Domain.Enums;
 
@@ -18,7 +19,7 @@ public class UpdateDeviceCommandHandler : ICommandHandler<UpdateDeviceCommand, D
     public async Task<DeviceDto> HandleAsync(UpdateDeviceCommand command, CancellationToken cancellationToken = default)
     {
         var device = await _repository.GetDeviceByIdAsync(command.Id, cancellationToken)
-            ?? throw new Exception($"Device with id '{command.Id}' was not found.");
+            ?? throw new DeviceNotFoundException(command.Id);
 
         //if device is in use...
         if (device.State == DeviceStatus.InUse)
@@ -26,12 +27,12 @@ public class UpdateDeviceCommandHandler : ICommandHandler<UpdateDeviceCommand, D
             //we cannot update name
             if (command.Name is not null && device.Name != command.Name) 
             {
-                throw new Exception("Name cannot be updated when device is in use.");
+                throw new DeviceInUseException(command.Id, "update name of");
             }
             //we cannot update brand
             if (command.Brand is not null && device.Brand != command.Brand)
             {
-                throw new Exception("Brand cannot be updated when device is in use.");
+                throw new DeviceInUseException(command.Id, "update brand of");
             }
         }
 

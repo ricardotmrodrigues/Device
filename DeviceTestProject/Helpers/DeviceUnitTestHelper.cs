@@ -6,7 +6,7 @@ namespace DeviceTestProject.Helpers;
 
 public static class DeviceUnitTestHelper
 {
-    public static DeviceEntity CreateTestDevice(int id = 1, string name = "Test Device", string brand = "Test Brand", DeviceStatus state = DeviceStatus.Avaliable)
+    public static DeviceEntity CreateTestDevice(int id = 1, string name = "Test Device", string brand = "Test Brand", DeviceStatus state = DeviceStatus.Available)
     {
         return new DeviceEntity
         {

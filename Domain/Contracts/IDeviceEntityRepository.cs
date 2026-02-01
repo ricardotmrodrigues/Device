@@ -13,7 +13,7 @@ namespace Domain.Contracts
         Task<DeviceEntity> UpdateDeviceAsync(DeviceEntity device, CancellationToken cancellationToken);
 
         // delete device entity
-        Task DeleteDeviceAsync(int deviceId, CancellationToken cancellationToken);
+        Task DeleteDeviceAsync(DeviceEntity device, CancellationToken cancellationToken);
 
         // gets one device by its id
         Task<DeviceEntity?> GetDeviceByIdAsync(int deviceId, CancellationToken cancellationToken);

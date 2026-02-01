@@ -1,3 +1,4 @@
+using API.Middleware;
 using Application.Extensions;
 using Infrastructure.Extensions;
 using FluentValidation.AspNetCore;
@@ -18,6 +19,10 @@ public class Program
 
         var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING")
             ?? throw new InvalidOperationException("CONNECTION_STRING environment variable is not set.");
+        
+        builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+        builder.Services.AddProblemDetails();
+        
         builder.Services.AddInfrastructure(connectionString);
         builder.Services.AddApplication();
         builder.Services.AddControllers()
@@ -39,7 +44,7 @@ public class Program
         });
 
         var app = builder.Build();
-
+        app.UseExceptionHandler();
         // Apply migrations automatically on startup
         using (var scope = app.Services.CreateScope())
         {

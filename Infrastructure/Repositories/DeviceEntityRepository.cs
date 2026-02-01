@@ -33,9 +33,8 @@ public class DeviceEntityRepository : IDeviceEntityRepository
     }
 
     // delete device entity
-    public async Task DeleteDeviceAsync(int deviceId, CancellationToken cancellationToken)
+    public async Task DeleteDeviceAsync(DeviceEntity device, CancellationToken cancellationToken)
     {
-        var device = new DeviceEntity { Id = deviceId };
         _context.Devices.Remove(device);
         await _context.SaveChangesAsync(cancellationToken);
     }
