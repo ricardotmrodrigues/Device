@@ -7,6 +7,8 @@ namespace API.Extensions;
 
 public static class FilterRequestExtensions
 {
+
+    //maps GetDevicesFilterRequest (API) to GetDevicesByFilterQuery (Application)
     public static GetDevicesByFilterQuery ToFilterQuery(this GetDevicesFilterRequest request)
     {
         Expression<Func<DeviceEntity, bool>> predicate = d => true;
