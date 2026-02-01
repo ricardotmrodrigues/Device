@@ -1,7 +1,9 @@
 namespace Domain.Common;
 
+// generic for paged results
 public record PagedResult<T>(
     IEnumerable<T> Items,
     int TotalCount,
     int PageNumber,
-    int PageSize);
+    int PageSize
+);

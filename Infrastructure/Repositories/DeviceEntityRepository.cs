@@ -16,6 +16,7 @@ public class DeviceEntityRepository : IDeviceEntityRepository
         _context = context;
     }
 
+    // add device entity
     public async Task<DeviceEntity> AddDeviceAsync(DeviceEntity device, CancellationToken cancellationToken)
     {
         await _context.Devices.AddAsync(device, cancellationToken);
@@ -23,19 +24,7 @@ public class DeviceEntityRepository : IDeviceEntityRepository
         return device;
     }
 
-    public async Task DeleteDeviceAsync(int deviceId, CancellationToken cancellationToken)
-    {
-        var device = new DeviceEntity { Id = deviceId };
-        _context.Devices.Remove(device);
-        await _context.SaveChangesAsync(cancellationToken);
-    }
-
-
-    public async Task<DeviceEntity?> GetDeviceByIdAsync(int deviceId, CancellationToken cancellationToken)
-    {
-        return await _context.Devices.FindAsync(new object[] { deviceId }, cancellationToken);
-    }
-
+    //upadte device entity
     public async Task<DeviceEntity> UpdateDeviceAsync(DeviceEntity device, CancellationToken cancellationToken)
     {
         _context.Devices.Update(device);
@@ -43,6 +32,21 @@ public class DeviceEntityRepository : IDeviceEntityRepository
         return device;
     }
 
+    // delete device entity
+    public async Task DeleteDeviceAsync(int deviceId, CancellationToken cancellationToken)
+    {
+        var device = new DeviceEntity { Id = deviceId };
+        _context.Devices.Remove(device);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    // gets one device by its id
+    public async Task<DeviceEntity?> GetDeviceByIdAsync(int deviceId, CancellationToken cancellationToken)
+    {
+        return await _context.Devices.FindAsync(new object[] { deviceId }, cancellationToken);
+    }
+
+    // gets a paged result of devices
     public async Task<PagedResult<DeviceEntity>> GetDevicesPagedAsync(
         Expression<Func<DeviceEntity, bool>>? predicate = null,
         PaginationParameters? pagination = null,

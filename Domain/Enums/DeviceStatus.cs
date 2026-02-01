@@ -1,9 +1,7 @@
-﻿namespace Domain.Enums
+﻿namespace Domain.Enums;
+public enum DeviceStatus
 {
-    public enum DeviceStatus
-    {
-        Avaliable,
-        InUse,
-        Inactive
-    }
+    Avaliable,
+    InUse,
+    Inactive
 }
