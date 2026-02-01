@@ -31,8 +31,8 @@ namespace API.Controllers
             return Ok(DeviceResponse.FromDeviceDto(result));
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<DeviceResponse>>> GetDevices([FromQuery] GetDevicesFilterRequest request, CancellationToken ct = default)
+        [HttpPost("search")]
+        public async Task<ActionResult<IEnumerable<DeviceResponse>>> GetDevices([FromBody] GetDevicesFilterRequest request, CancellationToken ct = default)
         {
             var query = request.ToFilterQuery();
             var result = await _dispatcher.QueryAsync<IEnumerable<DeviceDto>>(query, ct);
